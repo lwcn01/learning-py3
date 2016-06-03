@@ -29,18 +29,26 @@ def scan_file_walk(path):
             Count = 0
         print('Count: %s files\n' %Count)
 
+def scan_file_scandir(path):
+    for entry in os.scandir(path):
+        if not entry.name.startswith('.') and entry.is_file(): #输出不是以.开头的文件
+            print(entry.name)
+        elif not entry.name.startswith('.') and entry.is_dir():
+            spath = os.path.join(path,entry.name)
+            scan_file_scandir(spath)
+
 if __name__ == '__main__':
     path = input('路径...')
     path = str(path).strip().rstrip('\\')
     print('\n数字1：递归函数实现\n')
     print('数字2：OS.WALK实现\n')
-    print('数字3：OS.SCAN实现\n')
+    print('数字3：OS.SCANDIR实现\n')
     ID = int(input('输入数字：'))
     if ID == 1:
         scan_file_recursion(path)
     elif ID == 2:
         scan_file_walk(path)
     elif ID == 3:
-        print('3.5.1Version+ Support')
+        scan_file_scandir(path)
     else:
         pass
